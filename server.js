@@ -33,27 +33,53 @@ const firstEntityValue = (entities, entity) => {
   return typeof val === 'object' ? val.value : val;
 };
 
+const THRESHOLD = 0.7;
 const handleMessage = ({entities}) => {
-  const intent = firstEntityValue(entities, 'intent');
-    if (!intent) {
-      console.log("il faut me fournir un intent");
-      return;
+  const Liste_document = firstEntityValue(entities, 'Liste_document');
+  const price_information = firstEntityValue(entities, 'price_information');
+  const document_sp_cifique = firstEntityValue(entities, 'document_sp_cifique');
+  const dateButoir = firstEntityValue(entities, 'dateButoir');
+  const greetings = firstEntityValue(entities, 'greetings');
+
+  const confidenceGreetings = entities.greetings;
+  const confidenceDocument = entities.Liste_document; // pour l'instant la seul solution que j'ai trouvé pour extraine la confidence car on ne sait pas à l'avance quelle entity sera donné, on ne peux pas la choisiri dynamiquement.
+    console.log(confidence);
+
+  const entites = [Liste_document, price_information, document_sp_cifique, dateButoir, greetings];
+  for (var i = 0; i < entites.length; i++) {
+    if(entites[i] != null){
+      switch (entites[i]) {
+        case 'price_information':
+          console.log("🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile");
+          break;
+        case 'formulaire_contact':
+          console.log("🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact");
+          break;
+        case 'DateButoir':
+          console.log("🤖 La date butoire pour la déclaration d'impôt est au 31 mars");
+          break;
+        case 'salutation_informel':
+          console.log("🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?");
+          break;
+        case 'salutation_poli':
+          console.log("🤖 Bonjour, je suis ChatMee, à votre service");
+          break;
+        case 'get_document_informations':
+          console.log("🤖 Voici les documents");
+          break;
+        case 'marie':
+          console.log("🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF");
+          break;
+        case 'celibataire':
+          console.log("🤖 Pour une personne célibataire, le prix est de 100 CHF");
+          break;
+        default:
+          console.log(`🤖 Je ne comprend pas votre demande`);
+          break;
+      }
     }
-    switch (intent) {
-      case 'unknown_question':
-        console.log("🤖 I don't understand");
-        break;
-      case 'greetings':
-        console.log("🤖 Bonjour, je suis Sam, à votre service");
-        break;
-      case 'get_document_informations':
-        console.log("🤖 Voici les documents");
-        break;
-      default:
-        console.log(`🤖  ${intent.value}`);
-        break;
-    }
-  };
+  }
+};
 
 //mongoose.connect('mongodb://localhost:27017/ChatBot_DB_DEV'); // connect to our database
 
@@ -84,25 +110,34 @@ router.get('/', function(req, res) {
 
 router.post("/message", (req, res) => {
   client.message(req.body.message, {}).then((data) => {
-    var intent = data.entities.intent;
+    var intent = data.entities.greetings;
     var intentValue;
-    // console.log('yes une réponse de wit: ' + JSON.stringify(intent));
+    console.log('yes une réponse de wit: ' + JSON.stringify(intent));
     for (var i = 0; i < intent.length; i++) {
       intentValue = intent[i].value;
       console.log(intentValue);
     }
     switch (intentValue) {
-      case 'unknown_question':
-        res.json("🤖 Je ne comprend pas cette question, pouvais vous être plus précis?")
+      case 'price_information':
+        console.log("🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile");
         break;
-      case 'greetings':
-        res.json("🤖 Bonjour, je suis ChatMe, à votre service");
+      case 'formulaire_contact':
+        console.log("🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact");
+        break;
+      case 'DateButoir':
+        console.log("🤖 La date butoire pour la déclaration d'impôt est au 31 mars");
+        break;
+      case 'salutation_informel':
+        console.log("🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?");
+        break;
+      case 'salutation_poli':
+        console.log("🤖 Bonjour, je suis ChatMee, à votre service");
         break;
       case 'get_document_informations':
-        res.json("🤖 Voici les documents");
+        console.log("🤖 Voici les documents");
         break;
       default:
-        res.json(`🤖  ${intent.value}`);
+        console.log(`🤖 Je ne comprend pas votre demande`);
         break;
     }
   })
@@ -112,4 +147,4 @@ router.post("/message", (req, res) => {
 app.use('/api', router);
 app.listen(port);
 
-// interactive(client, handleMessage);
+interactive(client, handleMessage);
