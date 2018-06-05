@@ -41,9 +41,9 @@ const handleMessage = ({entities}) => {
   const dateButoir = firstEntityValue(entities, 'dateButoir');
   const greetings = firstEntityValue(entities, 'greetings');
 
-  const confidenceGreetings = entities.greetings;
-  const confidenceDocument = entities.Liste_document; // pour l'instant la seul solution que j'ai trouvé pour extraine la confidence car on ne sait pas à l'avance quelle entity sera donné, on ne peux pas la choisiri dynamiquement.
-    console.log(confidence);
+  // const confidenceGreetings = entities.greetings;
+  // const confidenceDocument = entities.Liste_document; // pour l'instant la seul solution que j'ai trouvé pour extraine la confidence car on ne sait pas à l'avance quelle entity sera donné, on ne peux pas la choisiri dynamiquement.
+  //   console.log(confidence);
 
   const entites = [Liste_document, price_information, document_sp_cifique, dateButoir, greetings];
   for (var i = 0; i < entites.length; i++) {
@@ -109,37 +109,54 @@ router.get('/', function(req, res) {
 });
 
 router.post("/message", (req, res) => {
+  console.log(req.body);
+
+    var answer;
   client.message(req.body.message, {}).then((data) => {
-    var intent = data.entities.greetings;
-    var intentValue;
-    console.log('yes une réponse de wit: ' + JSON.stringify(intent));
-    for (var i = 0; i < intent.length; i++) {
-      intentValue = intent[i].value;
-      console.log(intentValue);
-    }
-    switch (intentValue) {
-      case 'price_information':
-        console.log("🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile");
-        break;
-      case 'formulaire_contact':
-        console.log("🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact");
-        break;
-      case 'DateButoir':
-        console.log("🤖 La date butoire pour la déclaration d'impôt est au 31 mars");
-        break;
-      case 'salutation_informel':
-        console.log("🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?");
-        break;
-      case 'salutation_poli':
-        console.log("🤖 Bonjour, je suis ChatMee, à votre service");
-        break;
-      case 'get_document_informations':
-        console.log("🤖 Voici les documents");
-        break;
-      default:
-        console.log(`🤖 Je ne comprend pas votre demande`);
-        break;
-    }
+    var entity = Object.keys(data.entities).toString();
+    var intent = data.entities[entity];
+    var value = intent[0].value
+
+      if(intent != null){
+        switch (value) {
+          case 'price_information':
+            answer="🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile";
+            res.json(answer);
+            break;
+          case 'formulaire_contact':
+            answer="🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact";
+            res.json(answer);
+            break;
+          case 'DateButoir':
+            answer="🤖 La date butoire pour la déclaration d'impôt est au 31 mars";
+            res.json(answer);
+            break;
+          case 'salutation_informel':
+            answer = "🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?";
+            res.json(answer);
+            break;
+          case 'salutation_poli':
+            answer="🤖 Bonjour, je suis ChatMee, à votre service";
+            res.json(answer);
+            break;
+          case 'get_document_informations':
+            answer="🤖 Voici les documents";
+            res.json(answer);
+            break;
+          case 'marie':
+            answer="🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF";
+            res.json(answer);
+            break;
+          case 'celibataire':
+            answer="🤖 Pour une personne célibataire, le prix est de 100 CHF";
+            res.json(answer);
+            break;
+          default:
+            answer=`🤖 Je ne comprend pas votre demande`;
+            res.json(answer);
+            break;
+        }
+      }
   })
   .catch(console.error);
 });
@@ -147,4 +164,4 @@ router.post("/message", (req, res) => {
 app.use('/api', router);
 app.listen(port);
 
-interactive(client, handleMessage);
+// interactive(client, handleMessage);
