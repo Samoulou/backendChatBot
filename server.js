@@ -112,7 +112,7 @@ router.post("/message", (req, res) => {
   console.log(req.body);
 
     var answer;
-  client.message(req.body.message, {}).then((data) => {
+    client.message(req.body.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
     var intent = data.entities[entity];
     var value = intent[0].value
