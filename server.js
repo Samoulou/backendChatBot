@@ -21,6 +21,7 @@ const client = new Wit({
   accessToken: WIT_TOKEN,
 });
 
+// TODO: METTRE COMMENTAIRES
 const firstEntityValue = (entities, entity) => {
   const val = entities && entities[entity] &&
     Array.isArray(entities[entity]) &&
@@ -33,6 +34,7 @@ const firstEntityValue = (entities, entity) => {
   return typeof val === 'object' ? val.value : val;
 };
 
+// TODO: METTRE COMMENTAIRES
 const THRESHOLD = 0.7;
 const handleMessage = ({entities}) => {
   const Liste_document = firstEntityValue(entities, 'Liste_document');
@@ -45,36 +47,37 @@ const handleMessage = ({entities}) => {
   // const confidenceDocument = entities.Liste_document; // pour l'instant la seul solution que j'ai trouvé pour extraine la confidence car on ne sait pas à l'avance quelle entity sera donné, on ne peux pas la choisiri dynamiquement.
   //   console.log(confidence);
 
+  // TODO: METTRE COMMENTAIRES
   const entites = [Liste_document, price_information, document_sp_cifique, dateButoir, greetings];
   for (var i = 0; i < entites.length; i++) {
     if(entites[i] != null){
-      switch (entites[i]) {
+      switch (entites[i]) { //🤖
         case 'price_information':
-          console.log("🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile");
+          console.log("Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.");
           break;
         case 'formulaire_contact':
-          console.log("🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact");
+          console.log("En cliquant sur ce lien vous trouverez notre formulaire de contact.");
           break;
         case 'DateButoir':
-          console.log("🤖 La date butoire pour la déclaration d'impôt est au 31 mars");
+          console.log("La date butoire pour la déclaration d'impôt est au 31 mars");
           break;
         case 'salutation_informel':
-          console.log("🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?");
+          console.log("Bonjour, je suis ChatMee, que puis-je faire pour vous ?");
           break;
         case 'salutation_poli':
-          console.log("🤖 Bonjour, je suis ChatMee, à votre service");
+          console.log("Bonjour, je suis ChatMee, à votre service.");
           break;
         case 'get_document_informations':
-          console.log("🤖 Voici les documents");
+          console.log("Voici la listes des documents.");
           break;
         case 'marie':
-          console.log("🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF");
+          console.log("Pour une couple marié travaillant à Genève, le prix est de 150.- CHF.");
           break;
         case 'celibataire':
-          console.log("🤖 Pour une personne célibataire, le prix est de 100 CHF");
+          console.log("Pour une personne célibataire, le prix est de 100.- CHF.");
           break;
         default:
-          console.log(`🤖 Je ne comprend pas votre demande`);
+          console.log(`Je ne comprend pas votre demande.`);
           break;
       }
     }
@@ -108,6 +111,7 @@ router.get('/', function(req, res) {
     .catch(console.error);
 });
 
+// TODO: METTRE COMMENTAIRES
 router.post("/message", (req, res) => {
   console.log(req.body);
 
@@ -121,12 +125,12 @@ router.post("/message", (req, res) => {
       if(intent != null){
         switch (value) {
           case 'price_information':
-            answer="🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile";
+            answer="🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
             output = [intent, answer]
             res.json(output);
             break;
           case 'formulaire_contact':
-            answer="🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact";
+            answer="🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact.";
             res.json(answer);
             break;
           case 'DateButoir':
@@ -134,29 +138,29 @@ router.post("/message", (req, res) => {
             res.json(answer);
             break;
           case 'salutation_informel':
-            answer = "🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?";
+            answer = "Bonjour, je suis ChatMee, que puis-je faire pour vous ?";
             output = [intent, answer]
             res.json(output);
             break;
           case 'salutation_poli':
-            answer="🤖 Bonjour, je suis ChatMee, à votre service";
+            answer="Bonjour, je suis ChatMee, à votre service.";
             res.json(answer);
             break;
           case 'get_document_informations':
-            answer="🤖 Voici les documents";
+            answer="🤖 Voici les documents.";
             res.json(answer);
             break;
           case 'marie':
-            answer="🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF";
+            answer="🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
             res.json(answer);
             break;
           case 'celibataire':
-            answer="🤖 Pour une personne célibataire, le prix est de 100 CHF";
+            answer="🤖 Pour une personne célibataire, le prix est de 100 CHF.";
             output = [intent, answer]
             res.json(output);
             break;
           default:
-            answer=`🤖 Je ne comprend pas votre demande`;
+            answer=`🤖 Je ne comprend pas votre demande.`;
             res.json(answer);
             break;
         }
