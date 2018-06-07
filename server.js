@@ -88,9 +88,7 @@ const handleMessage = ({entities}) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 var port = process.env.PORT || 6060;        // set our port
-
 app.use(morgan('dev'));
 var router = express.Router();              // get an instance of the express Router
 // middleware to use for all requests
@@ -113,8 +111,6 @@ router.get('/', function(req, res) {
 
 // TODO: METTRE COMMENTAIRES
 router.post("/message", (req, res) => {
-  console.log(req.body);
-
     var answer;
     var output = {};
     client.message(req.body.message, {}).then((data) => {
@@ -125,17 +121,29 @@ router.post("/message", (req, res) => {
       if(intent != null){
         switch (value) {
           case 'price_information':
-            answer="🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
+            answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
+            output = [intent, answer]
+            res.json(output);
+            break;
+          case 'felicitation':
+            answer="Génial, si vous avez encore besoin de moi, je suis là encore un moment.";
+            output = [intent, answer]
+            res.json(output);
+            break;
+          case 'remerciement':
+            answer="Avec plaisir, je reste à votre disposition en cas de besoin !";
             output = [intent, answer]
             res.json(output);
             break;
           case 'formulaire_contact':
-            answer="🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact.";
-            res.json(answer);
+            answer="En cliquant sur ce lien vous trouverez notre formulaire de contact.";
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'DateButoir':
-            answer="🤖 La date butoire pour la déclaration d'impôt est au 31 mars";
-            res.json(answer);
+            answer="La date butoire pour la déclaration d'impôt est au 31 mars";
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'salutation_informel':
             answer = "Bonjour, je suis ChatMee, que puis-je faire pour vous ?";
@@ -144,24 +152,28 @@ router.post("/message", (req, res) => {
             break;
           case 'salutation_poli':
             answer="Bonjour, je suis ChatMee, à votre service.";
-            res.json(answer);
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'get_document_informations':
-            answer="🤖 Voici les documents.";
-            res.json(answer);
+            answer="Voici les documents.";
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'marie':
-            answer="🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
-            res.json(answer);
+            answer="Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'celibataire':
-            answer="🤖 Pour une personne célibataire, le prix est de 100 CHF.";
+            answer="Pour une personne célibataire, le prix est de 100 CHF.";
             output = [intent, answer]
             res.json(output);
             break;
           default:
-            answer=`🤖 Je ne comprend pas votre demande.`;
-            res.json(answer);
+            answer=`Je ne comprend pas votre demande.`;
+            output = [intent, answer]
+            res.json(output);
             break;
         }
       }
