@@ -112,6 +112,7 @@ router.post("/message", (req, res) => {
   console.log(req.body);
 
     var answer;
+    var output = {};
     client.message(req.body.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
     var intent = data.entities[entity];
@@ -121,7 +122,8 @@ router.post("/message", (req, res) => {
         switch (value) {
           case 'price_information':
             answer="🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile";
-            res.json(answer);
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'formulaire_contact':
             answer="🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact";
@@ -133,7 +135,8 @@ router.post("/message", (req, res) => {
             break;
           case 'salutation_informel':
             answer = "🤖 Yo, je suis ChatMee, qu'est-ce-que je peux faire pour toi?";
-            res.json(answer);
+            output = [intent, answer]
+            res.json(output);
             break;
           case 'salutation_poli':
             answer="🤖 Bonjour, je suis ChatMee, à votre service";
@@ -149,7 +152,8 @@ router.post("/message", (req, res) => {
             break;
           case 'celibataire':
             answer="🤖 Pour une personne célibataire, le prix est de 100 CHF";
-            res.json(answer);
+            output = [intent, answer]
+            res.json(output);
             break;
           default:
             answer=`🤖 Je ne comprend pas votre demande`;
