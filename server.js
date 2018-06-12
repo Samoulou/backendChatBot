@@ -112,6 +112,7 @@ router.get('/', function(req, res) {
 // TODO: METTRE COMMENTAIRES
 router.post("/message", (req, res) => {
     var answer;
+    var type;
     var output = {};
     client.message(req.body.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
@@ -123,6 +124,7 @@ router.post("/message", (req, res) => {
           case 'price_information':
             answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
             output = [intent, answer]
+            console.log(output);
             res.json(output);
             break;
           case 'felicitation':
@@ -157,7 +159,8 @@ router.post("/message", (req, res) => {
             break;
           case 'get_document_informations':
             answer="Voici les documents.";
-            output = [intent, answer]
+            type = "url"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'marie':
