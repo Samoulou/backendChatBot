@@ -117,9 +117,10 @@ router.post("/message", (req, res) => {
     client.message(req.body.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
     var intent = data.entities[entity];
-    var value = intent[0].value
+    console.log(intent + "salut");
 
       if(intent != null){
+        var value = intent[0].value
         switch (value) {
           case 'price_information':
             answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
@@ -179,6 +180,11 @@ router.post("/message", (req, res) => {
             res.json(output);
             break;
         }
+      }
+      else {
+        answer=`Je ne comprend pas votre demande.`;
+        output = [intent, answer]
+        res.json(output);
       }
   })
   .catch(console.error);
