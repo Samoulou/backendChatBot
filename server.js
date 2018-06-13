@@ -121,7 +121,6 @@ router.post("/message", (req, res) => {
     var entity = Object.keys(data.entities).toString();
     var intent = data.entities[entity];
     var value = intent[0].value
-
       if(intent != null){
         switch (value) {
           case 'price_information':
