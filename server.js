@@ -117,73 +117,82 @@ router.post("/message", (req, res) => {
     client.message(req.body.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
     var intent = data.entities[entity];
-    console.log(intent + "salut");
 
       if(intent != null){
         var value = intent[0].value
         switch (value) {
           case 'price_information':
             answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
-            output = [intent, answer]
-            console.log(output);
+            type = "url"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'felicitation':
             answer="Génial, si vous avez encore besoin de moi, je suis là encore un moment.";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'remerciement':
             answer="Avec plaisir, je reste à votre disposition en cas de besoin !";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'formulaire_contact':
             answer="En cliquant sur ce lien vous trouverez notre formulaire de contact.";
-            output = [intent, answer]
+            type = "url"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'DateButoir':
             answer="La date butoire pour la déclaration d'impôt est au 31 mars";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'salutation_informel':
             answer = "Bonjour, je suis ChatMee, que puis-je faire pour vous ?";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'salutation_poli':
             answer="Bonjour, je suis ChatMee, à votre service.";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'get_document_informations':
             answer="Voici les documents.";
-            type = "url"
+            type = "liste"
             output = [intent, answer, type]
             res.json(output);
             break;
           case 'marie':
             answer="Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'celibataire':
             answer="Pour une personne célibataire, le prix est de 100 CHF.";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           default:
             answer=`Je ne comprend pas votre demande.`;
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
         }
       }
       else {
         answer=`Je ne comprend pas votre demande.`;
-        output = [intent, answer]
+        type = "text"
+        output = [answer, type]
         res.json(output);
       }
   })
