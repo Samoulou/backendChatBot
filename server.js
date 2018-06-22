@@ -1,4 +1,3 @@
-
 var mongoose   = require('mongoose');
 var morgan = require('morgan');
 var express    = require('express');        // call express
@@ -88,9 +87,7 @@ const handleMessage = ({entities}) => {
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 var port = process.env.PORT || 6060;        // set our port
-
 app.use(morgan('dev'));
 var router = express.Router();              // get an instance of the express Router
 // middleware to use for all requests
@@ -113,56 +110,89 @@ router.get('/', function(req, res) {
 
 // TODO: METTRE COMMENTAIRES
 router.post("/message", (req, res) => {
-  console.log(req.body);
-
     var answer;
+    var type;
     var output = {};
     client.message(req.body.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
     var intent = data.entities[entity];
-    var value = intent[0].value
+
       if(intent != null){
+        var value = intent[0].value
         switch (value) {
           case 'price_information':
-            answer="🤖 Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
-            output = [intent, answer]
+            answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
+            type = "url"
+            output = [intent, answer, type]
+            res.json(output);
+            break;
+          case 'felicitation':
+            answer="Génial, si vous avez encore besoin de moi, je suis là encore un moment.";
+            type = "text"
+            output = [intent, answer, type]
+            res.json(output);
+            break;
+          case 'remerciement':
+            answer="Avec plaisir, je reste à votre disposition en cas de besoin !";
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'formulaire_contact':
-            answer="🤖 En cliquant sur ce lien vous trouverez notre formulaire de contact.";
-            res.json(answer);
+            answer="En cliquant sur ce lien vous trouverez notre formulaire de contact.";
+            type = "url"
+            output = [intent, answer, type]
+            res.json(output);
             break;
           case 'DateButoir':
-            answer="🤖 La date butoire pour la déclaration d'impôt est au 31 mars";
-            res.json(answer);
+            answer="La date butoire pour la déclaration d'impôt est au 31 mars";
+            type = "text"
+            output = [intent, answer, type]
+            res.json(output);
             break;
           case 'salutation_informel':
             answer = "Bonjour, je suis ChatMee, que puis-je faire pour vous ?";
-            output = [intent, answer]
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           case 'salutation_poli':
             answer="Bonjour, je suis ChatMee, à votre service.";
-            res.json(answer);
+            type = "text"
+            output = [intent, answer, type]
+            res.json(output);
             break;
           case 'get_document_informations':
-            answer="🤖 Voici les documents.";
-            res.json(answer);
+            answer="Voici les documents.";
+            type = "liste"
+            output = [intent, answer, type]
+            res.json(output);
             break;
           case 'marie':
-            answer="🤖 Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
-            res.json(answer);
+            answer="Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
+            type = "text"
+            output = [intent, answer, type]
+            res.json(output);
             break;
           case 'celibataire':
-            answer="🤖 Pour une personne célibataire, le prix est de 100 CHF.";
-            output = [intent, answer]
+            answer="Pour une personne célibataire, le prix est de 100 CHF.";
+            type = "text"
+            output = [intent, answer, type]
             res.json(output);
             break;
           default:
-            answer=`🤖 Je ne comprend pas votre demande.`;
-            res.json(answer);
+            answer=`Je ne comprend pas votre demande.`;
+            type = "text"
+            output = [intent, answer, type]
+            res.json(output);
             break;
         }
+      }
+      else {
+        answer=`Je ne comprend pas votre demande.`;
+        type = "text"
+        output = [answer, type]
+        res.json(output);
       }
   })
   .catch(console.error);
@@ -170,5 +200,3 @@ router.post("/message", (req, res) => {
 
 app.use('/api', router);
 app.listen(port);
-
-// interactive(client, handleMessage);
