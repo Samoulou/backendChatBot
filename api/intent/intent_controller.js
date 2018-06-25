@@ -32,11 +32,18 @@ function index(req, res) {
 }
 
 
-function getIntent(intentfound) {
-  console.log("je get intent by intent");
-  // Intent.find({"intent":intentfound})
-  // .then(intent => res.json({intent}))
-  // .catch(err => res.status(400).json({errors: parseErrors(err.errors)}));
+function getIntent() {
+  // console.log("je get intent by intent");
+  // let intentfound = 'salutation_informel';
+  // Intent.find({"intent":intentfound}, function(err, intent) {
+  //   console.log('ici?');
+  //   if (err) {
+  //     res.send(err);
+  //   } else {
+  //     res.send(intent)
+  //   }
+  // });
+Intent.find({});
 }
 
 

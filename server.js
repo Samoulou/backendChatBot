@@ -11,7 +11,8 @@ var flash    = require('connect-flash');
 var config = require('./config/config.js');
 
 // configuration ===============================================================
-// mongoose.connect(config.MONGO_URL); // connect to our database
+mongoose.connect(config.MONGO_URL); // connect to our database
+console.log('lol');
 
 var port = process.env.PORT || 6060;        // set our port
 app.use(morgan('dev'));
@@ -32,6 +33,7 @@ require('./config/routes.js')(app); // load our routes and pass in our app and f
 
 // launch ======================================================================
 app.listen(port);
+console.log(mongoose.connection.readyState);
 console.log('The magic happens on port : ' + port);
 
 

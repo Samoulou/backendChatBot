@@ -8,7 +8,7 @@ var intentSchema = mongoose.Schema({
 
   answer: String,
   type : String,
-  intent: String,
+  intentName: String,
 
 });
 
