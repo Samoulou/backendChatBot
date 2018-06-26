@@ -1,5 +1,6 @@
 // set up ======================================================================
 // get all the tools we need
+const Intent = require('./api/intent/intent_model');
 var express  = require('express');
 var app      = express();
 var mongoose   = require('mongoose');
@@ -11,8 +12,18 @@ var flash    = require('connect-flash');
 var config = require('./config/config.js');
 
 // configuration ===============================================================
-mongoose.connect(config.MONGO_URL); // connect to our database
-console.log('lol');
+// mongoose.connect(config.MONGO_URL); // connect to our database
+mongoose.connect("mongodb://admin:chatmee1234_@ds161710.mlab.com:61710/chatmee"); // connect to our database
+console.log(mongoose.connection.readyState + "readystate");
+Intent.find(function(err, intents) {
+   if (err)
+   console.log('err');
+   res.send(err);
+
+   res.json(intents);
+   console.log('not err');
+ });
+
 
 var port = process.env.PORT || 6060;        // set our port
 app.use(morgan('dev'));
@@ -33,7 +44,6 @@ require('./config/routes.js')(app); // load our routes and pass in our app and f
 
 // launch ======================================================================
 app.listen(port);
-console.log(mongoose.connection.readyState);
 console.log('The magic happens on port : ' + port);
 
 

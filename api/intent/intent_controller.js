@@ -1,5 +1,6 @@
 const Intent = require('./intent_model');
 var config = require('../../config/config.js');
+var mongoose   = require('mongoose');
 
 // config WIT IA
 let Wit = null;
@@ -33,17 +34,18 @@ function index(req, res) {
 
 
 function getIntent() {
-  // console.log("je get intent by intent");
-  // let intentfound = 'salutation_informel';
-  // Intent.find({"intent":intentfound}, function(err, intent) {
-  //   console.log('ici?');
-  //   if (err) {
-  //     res.send(err);
-  //   } else {
-  //     res.send(intent)
-  //   }
-  // });
-Intent.find({});
+  console.log(mongoose.connection.readyState);
+  console.log("je get intent by intent");
+  let intentfound = 'salutation_informel';
+  Intent.find({"intentName":intentfound}, function(err, intent) {
+    console.log('ici?');
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(intent)
+    }
+  });
+
 }
 
 
