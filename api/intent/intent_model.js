@@ -1,16 +1,12 @@
-// app/models/message.js
+// app/models/intent.js
 // load the things we need
 var mongoose = require('mongoose');
-// var bcrypt   = require('bcrypt-nodejs');
 
-// define the schema for our message model
+// define the schema for our intent model
 var intentSchema = mongoose.Schema({
 
-  answer: String,
-  type : String,
-  intentName: String,
-
+      message : String,
 });
 
-// create the model for messages and expose it to our app
-module.exports = mongoose.model('intent', intentSchema);
+// create the model for intents and expose it to our app
+module.exports = mongoose.model('Intent', intentSchema);

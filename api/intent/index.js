@@ -7,11 +7,11 @@ var controller = require('./intent_controller.js');
 
 // Get functions
 router.get('/', controller.index);
-router.get('/getIntent', controller.getIntent);
 
 // Put functions
 
 // Post functions
+router.post('/', controller.userIntent);
 
 // Delete functions
 

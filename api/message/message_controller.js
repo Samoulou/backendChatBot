@@ -1,7 +1,5 @@
 const Message = require('./message_model');
 var config = require('../../config/config.js');
-
-console.log("test");
 // config WIT IA
 let Wit = null;
 let interactive = null;
@@ -37,24 +35,24 @@ function index(req, res) {
 // Post functions
 function userMessage(req, res) {
 
-  console.log(req.body);
   // TODO: la tu sauve dans la DB
-  // var newMessage = new Message(req.body);
-  //
-  // newMessage.save(function(err) {
-  //   if(err){
-  //     res.send(err);
-  //   } else {
-  //     res.send(newMessage);
-  //   }
-  // });
+  var newMessage = new Message();
+  newMessage.message = req.body.message;
 
-  var answer;
-  var type;
-  var output = {};
-  client.message(req.body.message, {}).then((data) => {
-  var entity = Object.keys(data.entities).toString();
-  var intent = data.entities[entity];
+  newMessage.save(function(err) {
+    if(err){
+      res.send(err);
+    } else {
+      res.send(newMessage);
+    }
+  });
+
+  // var answer;
+  // var type;
+  // var output = {};
+  // client.message(req.body.message, {}).then((data) => {
+  // var entity = Object.keys(data.entities).toString();
+  // var intent = data.entities[entity];
 
   // TODO: les answers de WIT sont des intents  => on get les intent dans la DB => on fais pas de switch case mais un findby intent
   // Intent.find(function(err, intent) {
@@ -65,85 +63,85 @@ function userMessage(req, res) {
   //   }
   // });
 
-    if(intent != null){
-      var value = intent[0].value
-      switch (value) {
-        case 'price_information':
-          answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
-          type = "url"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'felicitation':
-          answer="Génial, si vous avez encore besoin de moi, je suis là encore un moment.";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'remerciement':
-          answer="Avec plaisir, je reste à votre disposition en cas de besoin !";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'formulaire_contact':
-          answer="En cliquant sur ce lien vous trouverez notre formulaire de contact.";
-          type = "url"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'DateButoir':
-          answer="La date butoire pour la déclaration d'impôt est au 31 mars";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'salutation_informel':
-          answer = "Bonjour, je suis ChatMee, que puis-je faire pour vous ?";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'salutation_poli':
-          answer="Bonjour, je suis ChatMee, à votre service.";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'get_document_informations':
-          answer="Voici les documents.";
-          type = "liste"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'marie':
-          answer="Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        case 'celibataire':
-          answer="Pour une personne célibataire, le prix est de 100 CHF.";
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-        default:
-          answer=`Je ne comprend pas votre demande.`;
-          type = "text"
-          output = {intent, answer, type}
-          res.json(output);
-          break;
-      }
-    }
-    else {
-      answer=`Je ne comprend pas votre demande.`;
-      type = "text"
-      output = [answer, type]
-      res.json(output);
-    }
-})
-.catch(console.error);
+    // if(intent != null){
+    //   var value = intent[0].value
+    //   switch (value) {
+    //     case 'price_information':
+    //       answer="Afin de pouvoir vous renseigner au mieux, pouvez-vous me préciser votre situation civile.";
+    //       type = "url"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'felicitation':
+    //       answer="Génial, si vous avez encore besoin de moi, je suis là encore un moment.";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'remerciement':
+    //       answer="Avec plaisir, je reste à votre disposition en cas de besoin !";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'formulaire_contact':
+    //       answer="En cliquant sur ce lien vous trouverez notre formulaire de contact.";
+    //       type = "url"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'DateButoir':
+    //       answer="La date butoire pour la déclaration d'impôt est au 31 mars";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'salutation_informel':
+    //       answer = "Bonjour, je suis ChatMee, que puis-je faire pour vous ?";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'salutation_poli':
+    //       answer="Bonjour, je suis ChatMee, à votre service.";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'get_document_informations':
+    //       answer="Voici les documents.";
+    //       type = "liste"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'marie':
+    //       answer="Pour une couple marié travaillant à Genève, le prix est de 150 CHF.";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     case 'celibataire':
+    //       answer="Pour une personne célibataire, le prix est de 100 CHF.";
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //     default:
+    //       answer=`Je ne comprend pas votre demande.`;
+    //       type = "text"
+    //       output = {intent, answer, type}
+    //       res.json(output);
+    //       break;
+    //   }
+    // }
+    // else {
+    //   answer=`Je ne comprend pas votre demande.`;
+    //   type = "text"
+    //   output = [answer, type]
+    //   res.json(output);
+    // }
+// })
+// .catch(console.error);
 
 }
 

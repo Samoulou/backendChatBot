@@ -1,6 +1,5 @@
 // set up ======================================================================
 // get all the tools we need
-const Intent = require('./api/intent/intent_model');
 var express  = require('express');
 var app      = express();
 var mongoose   = require('mongoose');
@@ -10,19 +9,8 @@ var cookieParser = require('cookie-parser');
 var flash    = require('connect-flash');
 // var session      = require('express-session');
 var config = require('./config/config.js');
-
 // configuration ===============================================================
-// mongoose.connect(config.MONGO_URL); // connect to our database
-mongoose.connect("mongodb://admin:chatmee1234_@ds161710.mlab.com:61710/chatmee"); // connect to our database
-console.log(mongoose.connection.readyState + "readystate");
-Intent.find(function(err, intents) {
-   if (err)
-   console.log('err');
-   res.send(err);
-
-   res.json(intents);
-   console.log('not err');
- });
+mongoose.connect(config.MONGO_URL); // connect to our database
 
 
 var port = process.env.PORT || 6060;        // set our port

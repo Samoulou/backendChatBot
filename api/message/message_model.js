@@ -5,13 +5,6 @@ var mongoose = require('mongoose');
 
 // define the schema for our message model
 var messageSchema = mongoose.Schema({
-
-  // owner:{
-  //   type: String,
-  // },
-  // text: {
-  //   type: String,
-  // }
   message: String,
   type : String,
   date : { type: Date, default: Date.now },
@@ -22,4 +15,4 @@ var messageSchema = mongoose.Schema({
 });
 
 // create the model for messages and expose it to our app
-module.exports = mongoose.model('message', messageSchema);
+module.exports = mongoose.model('Message', messageSchema);
