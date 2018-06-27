@@ -6,12 +6,12 @@ var controller = require('./intent_controller.js');
 
 
 // Get functions
-router.get('/', controller.index);
+router.get('/', controller.getIntentByIntentName);
 
 // Put functions
 
 // Post functions
-router.post('/', controller.userIntent);
+router.post('/', controller.createIntent);
 
 // Delete functions
 
