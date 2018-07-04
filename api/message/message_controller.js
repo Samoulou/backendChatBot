@@ -1,11 +1,11 @@
 const Message = require('./message_model');
+const intentController = require('../intent/intent_controller');
 var config = require('../../config/config.js');
 // config WIT IA
 let Wit = null;
 let interactive = null;
 const WIT_TOKEN = config.WIT_TOKEN;
 try {
-  // if running from repo
   Wit = require('../').Wit;
   interactive = require('../').interactive;
 } catch (e) {
@@ -16,8 +16,6 @@ const client = new Wit({
   accessToken: WIT_TOKEN,
 });
 // end of config WIT IA
-
-
 
 // Get functions
 function index(req, res) {
@@ -33,18 +31,21 @@ function index(req, res) {
 // Put functions
 
 // Post functions
+// Post function when user is submitting a message
 function userMessage(req, res) {
+  var newMessage = req.body;
+  //sending the message to the wit.ai API to be analyzed
+  client.message(newMessage.message, {}).then((data) => {
+    var entity = Object.keys(data.entities).toString();
+    var intentValue = data.entities[entity][0].value;
+    var type;
+    newMessage.type = entity;
 
-  // TODO: la tu sauve dans la DB
-  var newMessage = new Message();
-  newMessage.message = req.body.message;
-
-  newMessage.save(function(err) {
-    if(err){
-      res.send(err);
-    } else {
-      res.send(newMessage);
+    //if user choose to disable the saving of his message in the DB
+    if(req.body.savingState){
+      Message.create(newMessage);
     }
+<<<<<<< HEAD
   });
 
   // var answer;
@@ -59,6 +60,10 @@ function userMessage(req, res) {
   //   if (err) {
   //     res.send(err);
   //   } else {
+  //
+  //
+  //
+  //
   //     res.send(intent)
   //   }
   // });
@@ -142,15 +147,29 @@ function userMessage(req, res) {
     // }
 // })
 // .catch(console.error);
+=======
+>>>>>>> 06e09e425f2d60a28181419c7bb414903dfd9c24
 
+    //Promise that will get the found intent from the analyzation previously done and fetch de intent from our DB to send the right answer
+    var promise = new Promise((resolve, reject) => {
+      var intentFound = intentController.getIntentByIntentName(intentValue);
+      intentFound.then((intents) => {
+        console.log(intents);
+        if(intents != null){
+          resolve(intents.forEach((intent) => {
+                res.json(intent );
+            })
+          );
+        }
+        else {
+          reject(Error('No intent'));
+        }
+      });
+    });
+  });
 }
 
 // Delete functions
 
-
-
 exports.index = index;
-// exports.getMessageById = getMessageById;
-// exports.getMessageByCompany = getMessageByCompany;
 exports.userMessage = userMessage;
-// exports.updateMessage = updateMessage;

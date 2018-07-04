@@ -2,16 +2,16 @@
 
 var express = require('express');
 var router = express.Router();
-var controller = require('./intent_controller.js');
+var controller = require('./conversation_controller.js');
 
 
 // Get functions
-router.get('/', controller.getIntentByIntentName);
+router.get('/', controller.getConversationId);
 
 // Put functions
 
 // Post functions
-router.post('/', controller.createIntent);
+router.post('/', controller.createConversation);
 
 // Delete functions
 

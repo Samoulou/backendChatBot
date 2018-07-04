@@ -1,15 +1,17 @@
-// app/models/message.js
 // load the things we need
 var mongoose = require('mongoose');
-// var bcrypt   = require('bcrypt-nodejs');
 
 // define the schema for our message model
 var messageSchema = mongoose.Schema({
   message: String,
   type : String,
   date : { type: Date, default: Date.now },
-  conversation : String, // TODO: ensuite faire un object + api conversation
-  // conversation : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', index: {unique: true, dropDups: true} }],
+  savingState: { type: Boolean, default: "true" },
+  // conversation : String, // TODO: ensuite faire un object + api conversation
+  conversation : [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Conversation',
+  }],
   // active : { type: Boolean, default: "true" },
 
 });
