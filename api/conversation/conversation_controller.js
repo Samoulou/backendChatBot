@@ -32,10 +32,11 @@ function getConversationId(req, res) {
 // Post functions
 // Post function when user is submitting a message
 function createConversation(req, res) {
-
+  var newConversation = req.body;
+  Conversation.create(newConversation).then(conversation => res.json({ conversation }));
 }
 
 // Delete functions
 
-exports.index = index;
 exports.createConversation = createConversation;
+exports.getConversationId = getConversationId;

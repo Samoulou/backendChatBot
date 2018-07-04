@@ -7,11 +7,11 @@ var messageSchema = mongoose.Schema({
   type : String,
   date : { type: Date, default: Date.now },
   savingState: { type: Boolean, default: "true" },
-  // conversation : String, // TODO: ensuite faire un object + api conversation
-  conversation : [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Conversation',
-  }],
+  conversationUid : String,
+  // conversation : [{
+  //   type: mongoose.Schema.ObjectId,
+  //   ref: 'Conversation',
+  // }],
   // active : { type: Boolean, default: "true" },
 
 });

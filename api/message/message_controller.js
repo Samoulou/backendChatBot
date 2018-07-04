@@ -18,14 +18,9 @@ const client = new Wit({
 // end of config WIT IA
 
 // Get functions
-function index(req, res) {
-  Message.find(function(err, Messages) {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(Messages)
-    }
-  });
+function getMessageByConvId(req, res) {
+  var id = req.params.id;
+  Message.find({"conversationUid":id}).then(messages => res.json({ messages }))
 }
 
 // Put functions
@@ -67,5 +62,5 @@ function userMessage(req, res) {
 
 // Delete functions
 
-exports.index = index;
+exports.getMessageByConvId = getMessageByConvId;
 exports.userMessage = userMessage;

@@ -6,7 +6,7 @@ var controller = require('./message_controller.js');
 
 
 // Get functions
-router.get('/', controller.index);
+router.get('/:id', controller.getMessageByConvId);
 
 // Put functions
 
