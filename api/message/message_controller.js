@@ -34,14 +34,12 @@ function index(req, res) {
 // Post function when user is submitting a message
 function userMessage(req, res) {
   var newMessage = req.body;
-
   //sending the message to the wit.ai API to be analyzed
   client.message(newMessage.message, {}).then((data) => {
     var entity = Object.keys(data.entities).toString();
     var intentValue = data.entities[entity][0].value;
     var type;
     newMessage.type = entity;
-    console.log(req.body.savingState);
 
     //if user choose to disable the saving of his message in the DB
     if(req.body.savingState){
@@ -55,7 +53,7 @@ function userMessage(req, res) {
         console.log(intents);
         if(intents != null){
           resolve(intents.forEach((intent) => {
-                res.json(intent.answer);
+                res.json(intent );
             })
           );
         }

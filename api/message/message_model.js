@@ -8,7 +8,10 @@ var messageSchema = mongoose.Schema({
   date : { type: Date, default: Date.now },
   savingState: { type: Boolean, default: "true" },
   // conversation : String, // TODO: ensuite faire un object + api conversation
-  // conversation : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Conversation', index: {unique: true, dropDups: true} }],
+  conversation : [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Conversation',
+  }],
   // active : { type: Boolean, default: "true" },
 
 });
