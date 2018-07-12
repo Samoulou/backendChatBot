@@ -19,6 +19,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+
 // middleware to use for all requests
 app.all('/*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

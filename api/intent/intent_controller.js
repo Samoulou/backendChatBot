@@ -7,6 +7,10 @@ function getIntentByIntentName(intent) {
   return promise;
 }
 
+function getUnknownIntent() {
+  Intent.find({"name":"unknown_entity"}).then(unknown => res.json({ unknown }))
+}
+
 // Put functions
 
 // Post functions
