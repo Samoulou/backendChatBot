@@ -1,5 +1,3 @@
-
-
 function validationError(res, statusCode) {
   statusCode = statusCode || 422
   return function(err) {

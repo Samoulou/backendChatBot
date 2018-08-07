@@ -20,20 +20,18 @@ const client = new Wit({
   accessToken: WIT_TOKEN,
 });
 // end of config WIT IA
-app.use(cookieParser()); // read cookies (needed for auth)
+
+app.use(cookieParser()); // read cookies
 
 // Get functions
-function getMessageByConvId(req, res) {
+getMessageByConvId = (req, res) => {
   var id = req.params.id;
   Message.find({"conversationUid":id}).then(messages => res.json({ messages }))
 }
-// Put functions
 
 // Post functions
-// Post function when user is submitting a message
-function userMessage(req, res) {
+userMessage = (req, res) => {
   var newMessage = req.body;
-  console.log(newMessage.savingState);
   //sending the message to the wit.ai API to be analyzed
   client.message(newMessage.message, {}).then((data) => {
     if(Object.keys(data.entities).length === 0){
@@ -73,6 +71,10 @@ function userMessage(req, res) {
 }
 
 // Delete functions
+getMessageByConvId = (req, res) => {
+  var id = req.params.id;
+  Message.find({"conversationUid":id}).then(messages => res.json({ messages }));
+}
 
 exports.getMessageByConvId = getMessageByConvId;
 exports.userMessage = userMessage;
